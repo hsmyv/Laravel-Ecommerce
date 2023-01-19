@@ -205,7 +205,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        @foreach ($products as $product)                            
+                        @foreach ($products as $product)
                         <div class="col-lg-4 col-md-7 col-sm-7">
                             <div class="product__item sale">
                                 <div class="product__item__pic set-bg" data-setbg="/img/product/product-3.jpg">

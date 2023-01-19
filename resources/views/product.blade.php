@@ -129,6 +129,13 @@
                                     <input type="text" value="1">
                                 </div>
                             </div>
+                            <form action="{{route('cart.store', $product->id)}}" method="POST">
+                                       @csrf
+                                       {{-- <input type="hidden" name="id" value="{{$product->id}}">
+                                       <input type="hidden" name="name" value="{{$product->name}}">
+                                       <input type="hidden" name="price" value="{{$product->price}}"> --}}
+                                       <button type="submit"> + Add To Cart</button>
+                            </form>
                             <a href="#" class="primary-btn">add to cart</a>
                         </div>
                         <div class="product__details__btns__option">

@@ -18,12 +18,11 @@ class ShopController extends Controller
     public function show($slug){
 
         $product = Product::where('slug', $slug)->firstOrFail();
-        $relates = Product::where('slug','!=', $slug)->inRandomOrder()->take(4)->get();
+        $mightAlsoLike = Product::where('slug','!=', $slug)->mightAlsoLike()->get();
         return view('product')->with(
-           [ 
-            'product' => $product,
-            'relates'=> $relates
-            
+           [
+            'product'      => $product,
+            'relates'      => $mightAlsoLike
         ]);
     }
 }

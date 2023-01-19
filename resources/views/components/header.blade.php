@@ -24,7 +24,7 @@
             <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
             <a href="#"><img src="/img/icon/heart.png" alt=""></a>
             <a href="#"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
-            <div class="price">$0.00</div>
+            <div class="price">$0.0</div>
         </div>
         <div id="mobile-menu-wrap"></div>
         <div class="offcanvas__text">
@@ -91,8 +91,8 @@
                     <div class="header__nav__option">
                         <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
                         <a href="#"><img src="/img/icon/heart.png" alt=""></a>
-                        <a href="#"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
-                        <div class="price">$0.00</div>
+                        <a href="{{route('cart')}}"><img src="/img/icon/cart.png" alt=""> <span>{{Cart::count()}}</span></a>
+                        <div class="price">$0.10</div>
                     </div>
                 </div>
             </div>
