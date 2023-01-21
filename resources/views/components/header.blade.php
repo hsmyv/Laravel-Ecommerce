@@ -78,7 +78,7 @@
                                 <ul class="dropdown">
                                     <li><a href="./about.html">About Us</a></li>
                                     <li><a href="{{route('cart')}}">Shopping Cart</a></li>
-                                    <li><a href="./checkout.html">Check Out</a></li>
+                                    <li><a href="{{route('checkout.index')}}">Check Out</a></li>
                                     <li><a href="./blog-details.html">Blog Details</a></li>
                                 </ul>
                             </li>

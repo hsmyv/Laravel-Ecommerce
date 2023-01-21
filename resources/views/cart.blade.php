@@ -108,7 +108,7 @@
                         <li>Tax(13%)      <span>$ {{Cart::tax()}}</span></li>
                         <li>Total    <span>$ {{Cart::total()}}</span></li>
                     </ul>
-                    <a href="#" class="primary-btn">Proceed to checkout</a>
+                    <a href="{{route('checkout.index')}}" class="primary-btn">Proceed to checkout</a>
                 </div>
             </div>
 
