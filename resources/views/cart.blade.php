@@ -109,6 +109,11 @@
                         <li>Total    <span>$ {{Cart::total()}}</span></li>
                     </ul>
                     <a href="{{route('checkout.index')}}" class="primary-btn">Proceed to checkout</a>
+                      @if (session()->has('success_message'))
+                            <div class="alert alert-success">
+                                {{session()->get('success_message')}}
+                            </div>
+                    @endif
                 </div>
             </div>
 

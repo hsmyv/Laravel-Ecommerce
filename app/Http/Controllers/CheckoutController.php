@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CheckoutRequest;
 use Cart;
 use Illuminate\Http\Request;
-use Cartalyst\Stripe\Stripe;
-
+use Stripe\Stripe;
 class CheckoutController extends Controller
 {
 
@@ -35,20 +35,31 @@ class CheckoutController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CheckoutRequest $request)
     {
-        try {
-            $response = Stripe::charges()->create([
-                'amount' => Cart::total() / 100,
+        // $contents = Cart::content()->map(function($item){
+        //     return $item->model->slug.','.$item->qty;
+        // })->values()->toJson();
+
+            $stripe = new \Stripe\StripeClient(
+            'sk_test_51MSgXMFGPKMMRWmDBByyWpWiDpYJmwSCtYw8jm9XBG1dewrOSlFVjuQzEForXKhIWXtGZCi5ZCO6X88UW3653lMY00Q3NQ2zC7');
+
+        // try {
+            $response = $stripe->charges->create([
+                'amount' => Cart::total(),
                 'currency' => 'CAD',
                 'source' => $request->stripeToken,
                 'description' => 'order'
+                // 'metadata'     => [
+                //     'contents' => $contents,
+                //     'quantity' => Cart::instance('default')->count()
+                // ],
             ]);
-
-            return back()->with('success_message', 'Thank you! Your payment has been successfully accepted!');
-        } catch (\Exception $e) {
-            return back()->with('success_message', 'Wrong! Your payment has been denied!');
-        }
+            Cart::instance('default')->destroy();
+            return redirect()->route('cart')->with('success_message', 'Thank you! Your payment has been successfully accepted!');
+         //} catch (\Exception $e) {
+        //     return back()->with('success_message', 'Wrong! Your payment has been denied!');
+        // }
     }
 
     /**

@@ -1,6 +1,6 @@
 // Set your publishable key: remember to change this to your live publishable key in production
 // See your keys here: https://dashboard.stripe.com/apikeys
-var stripe = Stripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+var stripe = Stripe('pk_test_51MSgXMFGPKMMRWmDiQdjqrVRj1hpjHUS9zC70wBrYYIQzWWWkFumN1lu0ILnfT2PeHaasTgkNIFYDOwAtUto7Qm400GrMCHHdB');
 var elements = stripe.elements();
 
 // Set up Stripe.js and Elements to use in checkout form
@@ -32,14 +32,14 @@ var form = document.getElementById('payment-form');
 form.addEventListener('submit', function(ev) {
   ev.preventDefault();
 
-  var options ={
-    name: document.getElementById('name_on_card').value,
-    address_line1: document.getElementById('address').value,
-    address_city: document.getElementById('city').value,
-    address_state: document.getElementById('province').value,
-    address_zip: document.getElementById('postalcode').value
-  }
-  stripe.createToken(card,options).then(function(result) {
+//   var options ={
+//     address_line1: document.getElementById('address').value,
+//     address_city: document.getElementById('city').value,
+//     address_state: document.getElementById('country').value,
+//     address_zip: document.getElementById('postcode').value
+//   }
+
+  stripe.createToken(card).then(function(result) {
     if(result.error){
         var errorElement = document.getElementById('card-errors');
         errorElement.textContent = result.error.message;
