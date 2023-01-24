@@ -9,6 +9,8 @@
                         <div class="breadcrumb__links">
                             <a href="./index.html">Home</a>
                             <span>Shop</span>
+                            <span>-> {{$categoryName}}</span>
+
                         </div>
                     </div>
                 </div>
@@ -39,6 +41,9 @@
                                         <div class="card-body">
                                             <div class="shop__sidebar__categories">
                                                 <ul class="nice-scroll">
+                                                    @foreach ($categories as $category )
+                                                    <li><a  class="{{setActiveCategory($category->slug)}}" href="{{route('shop',['category' => $category->slug])}}">{{$category->name}}</a></li>
+                                                @endforeach
                                                     <li><a href="#">Men (20)</a></li>
                                                     <li><a href="#">Women (20)</a></li>
                                                     <li><a href="#">Bags (20)</a></li>
@@ -194,18 +199,21 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="shop__product__option__right">
-                                    <p>Sort by Price:</p>
+                                    {{-- <p>Sort by Price:</p>
                                     <select>
                                         <option value="">Low To High</option>
                                         <option value="">$0 - $55</option>
                                         <option value="">$55 - $100</option>
-                                    </select>
+                                    </select> --}}
+                                    <p>Sort by Price:</p>
+                                    <a href="{{route('shop', ['category' => request()->category, 'sort' => 'low_high'])}}"><p>Low to High |</p></a>
+                                    <a href="{{route('shop', ['category' => request()->category, 'sort' => 'high_low'])}}"><p>High to Low</p></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        @foreach ($products as $product)
+                        @forelse ($products as $product)
                         <div class="col-lg-4 col-md-7 col-sm-7">
                             <div class="product__item sale">
                                 <div class="product__item__pic set-bg" data-setbg="/img/product/product-3.jpg">
@@ -249,8 +257,12 @@
                                 </div>
                             </div>
                         </div>
-                            @endforeach
-                    <div class="row">
+                            @empty
+                            <div style="text-align: left">No items found</div>
+                            @endforelse
+
+                            {{$products->appends(request()->input())->links()}}
+                    {{-- <div class="row">
                         <div class="col-lg-12">
                             <div class="product__pagination">
                                 <a class="active" href="#">1</a>
@@ -260,7 +272,7 @@
                                 <a href="#">21</a>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SaveForLaterController;
+use App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,8 +19,8 @@ use App\Http\Controllers\SaveForLaterController;
 |
 */
 
-Route::get('/', function () {
-    return view('Main');
+Route::controller(HomeController::class)->group(function(){
+    Route::get('/', 'index')->name('index');
 });
 
 Route::controller(ShopController::class)->group(function(){
@@ -33,7 +35,7 @@ Route::controller(CartController::class)->group(function(){
     Route::post('/cart', 'store')->name('cart.store');
     Route::delete('/cart/{product}', 'destroy')->name('cart.destroy');
     Route::post('/cart/switchToSaveForLater/{product}', 'switchToSaveForLater')->name('cart.switchToSaveForLater');
-
+    Route::patch('cart/{product}', 'update')->name('cart.update');
 
 });
 

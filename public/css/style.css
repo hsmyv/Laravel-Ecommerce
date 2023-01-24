@@ -1156,6 +1156,7 @@ ol {
 	margin-bottom: 45px;
 }
 
+
 .shop__sidebar__search form {
 	position: relative;
 }
@@ -1245,6 +1246,12 @@ ol {
 .shop__sidebar__price ul li,
 .shop__sidebar__brand ul li {
 	list-style: none;
+
+}
+.shop__sidebar__categories ul li a.active {
+    font-weight:400;
+    font-size: large;
+    color: #000;
 }
 
 .shop__sidebar__categories ul li a,
@@ -2667,7 +2674,7 @@ ol {
 .checkout__order .site-btn {
 	width: 100%;
 	margin-top: 8px;
-    
+
 }
 
 .checkout__order__products {

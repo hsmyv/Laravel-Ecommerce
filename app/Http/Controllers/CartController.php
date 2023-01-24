@@ -34,6 +34,11 @@ class CartController extends Controller
         return redirect()->route('cart')->with('success_message', 'You product add to your cart');
     }
 
+    public function update(Request $request, $id)
+    {
+        return $request->all();
+    }
+
     public function destroy($id)
     {
         Cart::remove($id);
