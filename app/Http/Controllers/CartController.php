@@ -10,10 +10,16 @@ class CartController extends Controller
 {
     public function index()
     {
+
+
         $mightAlsoLike = Product::mightAlsoLike()->get();
         return view('cart')->with(
             [
-                'relates' => $mightAlsoLike
+                'relates' => $mightAlsoLike,
+                'discount' => $this->getNumbers()->get('discount'),
+                'newSubtotal' => $this->getNumbers()->get('newSubtotal'),
+                'newTax'    => $this->getNumbers()->get('newTax'),
+                'newTotal'  => $this->getNumbers()->get('newTotal')
             ]
         );
     }
@@ -65,5 +71,21 @@ class CartController extends Controller
             ->associate('App\Product');
 
         return redirect()->route('cart')->with('success_message', 'Item has been Saved For Later');
+    }
+    private function getNumbers()
+    {
+        $tax = config('cart.tax') / 100;
+        $discount = session()->get('coupon')['discount'] ?? 0;
+        $newSubtotal = (Cart::subtotal() - $discount);
+        $newTax = $newSubtotal * $tax;
+        $newTotal = $newSubtotal * (1 + $tax);
+
+        return collect([
+            'tax'      => $tax,
+            'discount' => $discount,
+            'newSubtotal' => $newSubtotal,
+            'newTax'    => $newTax,
+            'newTotal'  => $newTotal
+        ]);
     }
 }

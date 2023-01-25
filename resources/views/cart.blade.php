@@ -98,26 +98,42 @@
                 </div> --}}
                     </div>
                     <div class="col-lg-4">
+                        @if (!session()->has('coupon'))
                         <div class="cart__discount">
                             <h6>Discount codes</h6>
-                            <form action="#">
-                                <input type="text" placeholder="Coupon code">
+                            <form action="{{ route('coupon.store') }}" method="POST">
+                                @csrf
+                                <input type="text" name="coupon_code" id="coupon_code" placeholder="Coupon code">
                                 <button type="submit">Apply</button>
                             </form>
                         </div>
+                        @endif
                         <div class="cart__total">
                             <h6>Cart total</h6>
                             <ul>
                                 <li>Subtotal <span>$ {{ Cart::subtotal() }}</span></li>
-                                <li>Tax(13%) <span>$ {{ Cart::tax() }}</span></li>
+                                @if (session()->has('coupon'))
+                                    <li>Discount ({{ session()->get('coupon')['name'] }}) :
+                                        <form action="{{ route('coupon.destroy') }}" method="POST"
+                                            style="display:inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" style="font-size: 14px">Delete</button>
+                                        </form>
+                                        <span>-${{ session()->get('coupon')['discount'] }}</span>
+                                    </li>
+                                @endif
+                                @if (session()->has('coupon'))
+                                <li>New Subtotal <span>{{$newSubtotal}}</span></li>
+                                <li>Tax(13%) <span>{{$newTax}}</span></li>
+                                <li>New Total <span>{{$newTotal}}</span></li>
+                                @else
+                                <li>Tax(13%) <span>{{ Cart::tax() }}</span></li>
                                 <li>Total <span>$ {{ Cart::total() }}</span></li>
+                                @endif
                             </ul>
                             <a href="{{ route('checkout.index') }}" class="primary-btn">Proceed to checkout</a>
-                            @if (session()->has('success_message'))
-                                <div class="alert alert-success">
-                                    {{ session()->get('success_message') }}
-                                </div>
-                            @endif
+
                         </div>
                     </div>
 

@@ -46,21 +46,27 @@ class CheckoutController extends Controller
 
         // try {
             $response = $stripe->charges->create([
-                'amount' => Cart::total(),
+                'amount' => $this->getNumbers()->get('newTotal') / 100,
                 'currency' => 'CAD',
                 'source' => $request->stripeToken,
                 'description' => 'order'
                 // 'metadata'     => [
                 //     'contents' => $contents,
-                //     'quantity' => Cart::instance('default')->count()
+                //     'quantity' => Cart::instance('default')->count(),
+                 //      'discount' => collect(session()->get('coupon'))->toJson()
                 // ],
             ]);
             Cart::instance('default')->destroy();
+            session()->forget('coupon');
             return redirect()->route('cart')->with('success_message', 'Thank you! Your payment has been successfully accepted!');
          //} catch (\Exception $e) {
         //     return back()->with('success_message', 'Wrong! Your payment has been denied!');
         // }
+
+
     }
+
+
 
     /**
      * Display the specified resource.

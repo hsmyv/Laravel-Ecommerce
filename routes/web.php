@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CouponsController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RouteController;
 use App\Http\Controllers\SaveForLaterController;
 use App\Models\Product;
 
@@ -51,3 +53,7 @@ Route::controller(CheckoutController::class)->group(function(){
     Route::post('/checkout', 'store')->name('checkout.store');
 });
 
+Route::controller(CouponsController::class)->group(function(){
+    Route::post('user', 'store')->name('coupon.store');
+    Route::delete('user', 'destroy')->name('coupon.destroy');
+});
