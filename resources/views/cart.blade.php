@@ -111,7 +111,7 @@
                         <div class="cart__total">
                             <h6>Cart total</h6>
                             <ul>
-                                <li>Subtotal <span>$ {{ Cart::subtotal() }}</span></li>
+                                <li>Subtotal <span>{{presentPrice(Cart::subtotal())}}</span></li>
                                 @if (session()->has('coupon'))
                                     <li>Discount ({{ session()->get('coupon')['name'] }}) :
                                         <form action="{{ route('coupon.destroy') }}" method="POST"
@@ -124,12 +124,12 @@
                                     </li>
                                 @endif
                                 @if (session()->has('coupon'))
-                                <li>New Subtotal <span>{{$newSubtotal}}</span></li>
-                                <li>Tax(13%) <span>{{$newTax}}</span></li>
-                                <li>New Total <span>{{$newTotal}}</span></li>
+                                <li>New Subtotal <span>{{presentPrice($newSubtotal)}}</span></li>
+                                <li>Tax(13%) <span>{{presentPrice($newTax)}}</span></li>
+                                <li>New Total <span>{{presentPrice($newTotal)}}</span></li>
                                 @else
-                                <li>Tax(13%) <span>{{ Cart::tax() }}</span></li>
-                                <li>Total <span>$ {{ Cart::total() }}</span></li>
+                                <li>Tax(13%) <span>{{ presentPrice(Cart::tax()) }}</span></li>
+                                <li>Total <span>{{ presentPrice(Cart::total()) }}</span></li>
                                 @endif
                             </ul>
                             <a href="{{ route('checkout.index') }}" class="primary-btn">Proceed to checkout</a>

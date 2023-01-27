@@ -96,8 +96,20 @@
                                 @endforeach
                                 <ul class="checkout__total__all">
                                     <li>Subtotal <span>${{ Cart::subtotal() }}</span></li>
-                                    <li>Tax <span>${{ Cart::tax() }}</span></li>
-                                    <li>Total <span>${{ Cart::total() }}</span></li>
+                                        @if (session()->has('coupon'))
+                                    <li>Discount ({{ session()->get('coupon')['name'] }}) :
+                                        
+                                        <span>-${{ session()->get('coupon')['discount'] }}</span>
+                                    </li>
+                                @endif
+                                 @if (session()->has('coupon'))
+                                <li>New Subtotal <span>{{presentPrice($newSubtotal)}}</span></li>
+                                <li>Tax(13%) <span>{{presentPrice($newTax)}}</span></li>
+                                <li>New Total <span>{{presentPrice($newTotal)}}</span></li>
+                                @else
+                                <li>Tax(13%) <span>{{ presentPrice(Cart::tax()) }}</span></li>
+                                <li>Total <span>{{ presentPrice(Cart::total()) }}</span></li>
+                                @endif
                                 </ul>
                                 <div class="checkout__input__checkbox">
                                     <label for="acc-or">

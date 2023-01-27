@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
              'name' => "Pique Biker Jackettt$i",
              'slug'  => "piquejackett.$i",
              'details'   => 'Pique Biker Jacket',
-             'price' => "6$i.24",
+             'price' => rand(500, 1000),
              'description' => 'Pique Biker Jacket',
          ])->categories()->attach(3);
          }
@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
              'name' => "Multi-pocket Chest Bagg$i",
              'slug'  => "multipocketbagg$i",
              'details'   => 'Multi-pocket Chest Bag',
-             'price' => "4$i.24",
+             'price' => rand(500, 1000),
              'description' => 'Multi-pocket Chest Bag',
          ])->categories()->attach(4);
         }
@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
              'name' => "Watchhh$i",
              'slug'  => "watchmodelmm$i",
              'details'   => 'Basic Flowing Watch',
-             'price' => "2$i.24",
+             'price' => rand(500, 1000),
              'description' => 'Basic Flowing Watch',
          ])->categories()->attach(2);
         }
@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
              'name' => "Wallettt$i",
              'slug'  => "walletmodelss$i",
              'details'   => 'Basic Flowing wallet',
-             'price' => "2$i.24",
+             'price' => rand(500, 1000),
              'description' => 'Basic Flowing wallet',
          ])->categories()->attach(5);
         }
@@ -62,7 +62,7 @@ class DatabaseSeeder extends Seeder
              'name' => "Shoesss$i",
              'slug'  => "shoesmodelmodernn$i",
              'details'   => 'Basic Flowing Shoes',
-             'price' => "2$i.24",
+             'price' => rand(500, 1000),
              'description' => 'Basic Flowing Shoes',
          ])->categories()->attach(1);
         }

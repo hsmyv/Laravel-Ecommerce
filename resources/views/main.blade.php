@@ -104,10 +104,13 @@
             </div>
             <div class="row product__filter">
                 @foreach ($products as $product)
+
                 <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
                     <div class="product__item">
                         <div class="product__item__pic set-bg" data-setbg="img/product/product-1.jpg">
-                            <span class="label">New</span>
+                            @if (!empty($product->status))
+                                <span class="label">{{$product->status}}</span>
+                            @endif
                             <ul class="product__hover">
                                 <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
                                 <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
@@ -139,12 +142,15 @@
                         </div>
                     </div>
                 </div>
+
                 @endforeach
                 @foreach ($products as $product)
                 <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix hot-sales">
                     <div class="product__item sale">
                         <div class="product__item__pic set-bg" data-setbg="img/product/product-6.jpg">
-                            <span class="label">Sale</span>
+                            @if (!empty($product->status))
+                                <span class="label">{{$product->status}}</span>
+                            @endif
                             <ul class="product__hover">
                                 <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
                                 <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
@@ -176,6 +182,8 @@
                         </div>
                     </div>
                 </div>
+
+
                 @endforeach
 
             </div>
