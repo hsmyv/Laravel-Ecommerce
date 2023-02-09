@@ -57,3 +57,8 @@ Route::controller(CouponsController::class)->group(function(){
     Route::post('user', 'store')->name('coupon.store');
     Route::delete('user', 'destroy')->name('coupon.destroy');
 });
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
