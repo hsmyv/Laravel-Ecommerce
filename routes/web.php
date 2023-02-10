@@ -59,6 +59,3 @@ Route::controller(CouponsController::class)->group(function(){
 });
 
 
-Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
-});
