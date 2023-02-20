@@ -22,10 +22,10 @@ class CouponsController extends Controller
         if(!$coupon){
             return redirect()->route('cart')->withErrors("Invalid coupon code. Please try again");
         }
-
+        $subtotal = str_replace(',', '', Cart::subtotal()); // Remove the comma from the subtotal
         session()->put('coupon',[
             'name' => $coupon->code,
-            'discount'=> $coupon->discount(Cart::subtotal()),
+            'discount'=> $coupon->discount($subtotal),
         ]);
         return redirect()->route('cart')->with("success_message", "Coupon has been applied!");
 

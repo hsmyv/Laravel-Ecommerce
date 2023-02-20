@@ -6,6 +6,7 @@ use App\Http\Requests\CheckoutRequest;
 use Cart;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
+
 class CheckoutController extends Controller
 {
 
@@ -42,33 +43,32 @@ class CheckoutController extends Controller
      */
     public function store(CheckoutRequest $request)
     {
-        // $contents = Cart::content()->map(function($item){
-        //     return $item->model->slug.','.$item->qty;
-        // })->values()->toJson();
+        $contents = Cart::content()->map(function ($item) {
+            return $item->model->slug . ',' . $item->qty;
+        })->values()->toJson();
 
-            $stripe = new \Stripe\StripeClient(
-            'sk_test_51MSgXMFGPKMMRWmDBByyWpWiDpYJmwSCtYw8jm9XBG1dewrOSlFVjuQzEForXKhIWXtGZCi5ZCO6X88UW3653lMY00Q3NQ2zC7');
+        $stripe = new \Stripe\StripeClient(
+            'sk_test_51MSgXMFGPKMMRWmDBByyWpWiDpYJmwSCtYw8jm9XBG1dewrOSlFVjuQzEForXKhIWXtGZCi5ZCO6X88UW3653lMY00Q3NQ2zC7'
+        );
 
-        // try {
+        try {
             $response = $stripe->charges->create([
-                'amount' => $this->getNumbers()->get('newTotal'),
+                'amount' => (int) $this->getNumbers()->get('newTotal') * 100,
                 'currency' => 'CAD',
                 'source' => $request->stripeToken,
-                'description' => 'order'
-                // 'metadata'     => [
-                //     'contents' => $contents,
-                //     'quantity' => Cart::instance('default')->count(),
-                 //      'discount' => collect(session()->get('coupon'))->toJson()
-                // ],
+                'description' => 'order',
+                'metadata'     => [
+                    'contents' => $contents,
+                    'quantity' => Cart::instance('default')->count(),
+                    'discount' => collect(session()->get('coupon'))->toJson()
+                ],
             ]);
             Cart::instance('default')->destroy();
             session()->forget('coupon');
             return redirect()->route('cart')->with('success_message', 'Thank you! Your payment has been successfully accepted!');
-         //} catch (\Exception $e) {
-        //     return back()->with('success_message', 'Wrong! Your payment has been denied!');
-        // }
-
-
+        } catch (\Exception $e) {
+            return back()->with('success_message', 'Wrong! Your payment has been denied!');
+        }
     }
 
 
@@ -121,7 +121,8 @@ class CheckoutController extends Controller
     {
         $tax = config('cart.tax') / 100;
         $discount = session()->get('coupon')['discount'] ?? 0;
-        $newSubtotal = (Cart::subtotal() - $discount);
+        $subtotal = str_replace(',', '', Cart::subtotal()); // Remove the comma from the subtotal
+        $newSubtotal = ($subtotal - $discount);
         $newTax = $newSubtotal * $tax;
         $newTotal = $newSubtotal * (1 + $tax);
 

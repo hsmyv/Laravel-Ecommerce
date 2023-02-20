@@ -76,7 +76,8 @@ class CartController extends Controller
     {
         $tax = config('cart.tax') / 100;
         $discount = session()->get('coupon')['discount'] ?? 0;
-        $newSubtotal = (Cart::subtotal() - $discount);
+        $subtotal = str_replace(',', '', Cart::subtotal()); // Remove the comma from the subtotal
+        $newSubtotal = ($subtotal - $discount);
         $newTax = $newSubtotal * $tax;
         $newTotal = $newSubtotal * (1 + $tax);
 

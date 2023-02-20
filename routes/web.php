@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CouponsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RouteController;
@@ -31,6 +32,8 @@ Route::controller(ShopController::class)->group(function(){
     Route::get('/shop/{product}', 'show')->name('product');
 
 });
+
+Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
 
 Route::controller(CartController::class)->group(function(){
     Route::get('/cart', 'index')->name('cart');

@@ -1,6 +1,7 @@
 <?php
 function asDollars($value)
 {
+    if (!is_numeric($value)) return $value; // Return the value as-is if it is not numeric
     if ($value < 0) return "-" . asDollars(-$value);
     return '$' . number_format($value, 2);
 }
