@@ -83,14 +83,14 @@
                                 </ul>
                             </li>
                             <li><a href="./blog.html">Blog</a></li>
-                            <li><a href="{{route('contact.show')}}">Contacts</a></li>
+                            <li class="{{setActiveHeader('contact.show')}}"><a href="{{route('contact.show')}}">Contacts</a></li>
                         </ul>
                     </nav>
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
                         <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-                        <a href="#"><img src="/img/icon/heart.png" alt=""></a>
+                        <a href="{{route('cart')}}"><img src="/img/icon/heart.png" alt=""></a>
                         <a href="{{route('cart')}}"><img src="/img/icon/cart.png" alt=""><span style="font-size: 55%">@if (Cart::instance('default')->count() < 10)
                             {{Cart::instance('default')->count()}}
                         @else
