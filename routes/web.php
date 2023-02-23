@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
@@ -22,6 +23,8 @@ use App\Models\Product;
 |
 */
 
+Route::redirect('home', '/');
+
 Route::controller(HomeController::class)->group(function(){
     Route::get('/', 'index')->name('index');
 });
@@ -32,6 +35,16 @@ Route::controller(ShopController::class)->group(function(){
     Route::get('/shop/{product}', 'show')->name('product');
 
 });
+
+Route::controller(AuthController::class)->group(function(){
+    Route::get('/login',  'index')->name('auth.index')->middleware('guest');
+    Route::post('/register',  'register')->name('auth.register');
+    Route::post('/login',  'login')->name('auth.login');
+    Route::post('/logout',   'logout')->name('auth.logout')->middleware('auth');
+
+});
+
+
 
 Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
 
