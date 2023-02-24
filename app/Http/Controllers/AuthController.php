@@ -73,12 +73,6 @@ class AuthController extends Controller
         ]);
         $user = User::where('id', $id)->first();
         $user->update($attributes);
-
-        if ($request->hasFile('image')) {
-            $user->addMediaFromRequest('image')
-                ->usingName($request->name)
-                ->toMediaCollection('images');
-        }
         return redirect()->back()->with('success', 'Account has been updated successfully.');
     }
 

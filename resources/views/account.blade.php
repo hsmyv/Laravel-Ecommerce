@@ -20,7 +20,7 @@
                     <div class="profile-tab-nav border-right">
                         <div class="p-4">
                             <div class="img-circle text-center mb-3">
-                                <img id="imagePreview" src="{{ $user->getFirstMediaUrl('images') }}" width="400"
+                                <img id="imagePreview" src="{{ $user->getFirstMediaUrl('images') }}" width="250"
                                     height="250" alt="Image" class="shadow" />
                             </div>
                             <h4 class="text-center">{{ $user->name }}</h4>

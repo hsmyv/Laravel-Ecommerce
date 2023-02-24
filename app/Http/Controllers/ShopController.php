@@ -19,6 +19,8 @@ class ShopController extends Controller
         $pagination = 9;
         $categories = Category::all();
 
+
+
         if(request()->category){
             $products = Product::with('categories')->whereHas('categories', function ($query){
                 $query->where('slug', request()->category);
@@ -29,6 +31,17 @@ class ShopController extends Controller
             $products = Product::where('featured', false);
             $categoryName= "Featured";
         }
+        
+        $minPrice = request()->input('min_price');
+        $maxPrice = request()->input('max_price');
+
+        // Add price filter clauses based on the selected price range
+        if ($minPrice && $maxPrice) {
+            $products = $products->whereBetween('price', [(float)$minPrice, (float)$maxPrice]);
+        } elseif ($minPrice) {
+            $products = $products->where('price', '>=', (float)$minPrice);
+        }
+
 
         if(request()->sort == "low_high"){
             $products = $products->orderBy('price')->simplePaginate($pagination);

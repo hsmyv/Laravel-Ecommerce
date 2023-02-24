@@ -1,15 +1,15 @@
 <x-layout>
-<!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-option">
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-option">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__text">
                         <h4>Shop</h4>
                         <div class="breadcrumb__links">
-                            <a href="{{route('index')}}">Home</a>
-                            <a href="{{route('shop')}}">Shop</a>
-                            <span>{{$categoryName}}</span>
+                            <a href="{{ route('index') }}">Home</a>
+                            <a href="{{ route('shop') }}">Shop</a>
+                            <span>{{ $categoryName }}</span>
                         </div>
                     </div>
                 </div>
@@ -40,9 +40,11 @@
                                         <div class="card-body">
                                             <div class="shop__sidebar__categories">
                                                 <ul class="nice-scroll">
-                                                    @foreach ($categories as $category )
-                                                    <li><a  class="{{setActiveCategory($category->slug)}}" href="{{route('shop',['category' => $category->slug])}}">{{$category->name}}</a></li>
-                                                @endforeach
+                                                    @foreach ($categories as $category)
+                                                        <li><a class="{{ setActiveCategory($category->slug) }}"
+                                                                href="{{ route('shop', ['category' => $category->slug]) }}">{{ $category->name }}</a>
+                                                        </li>
+                                                    @endforeach
                                                     <li><a href="#">Men (20)</a></li>
                                                     <li><a href="#">Women (20)</a></li>
                                                     <li><a href="#">Bags (20)</a></li>
@@ -82,13 +84,27 @@
                                         <div class="card-body">
                                             <div class="shop__sidebar__price">
                                                 <ul>
-                                                    <li><a href="#">$0.00 - $50.00</a></li>
-                                                    <li><a href="#">$50.00 - $100.00</a></li>
-                                                    <li><a href="#">$100.00 - $150.00</a></li>
-                                                    <li><a href="#">$150.00 - $200.00</a></li>
-                                                    <li><a href="#">$200.00 - $250.00</a></li>
-                                                    <li><a href="#">250.00+</a></li>
+                                                    <li><a
+                                                            href="{{ route('shop', ['category' => request()->category,  'min_price' => 0, 'max_price' => 50]) }}">$0.00
+                                                            - $50.00</a></li>
+                                                    <li><a
+                                                            href="{{ route('shop', ['category' => request()->category,  'min_price' => 50, 'max_price' => 100]) }}">$50.00
+                                                            - $100.00</a></li>
+                                                    <li><a
+                                                            href="{{ route('shop', ['category' => request()->category,  'min_price' => 100, 'max_price' => 150]) }}">$100.00
+                                                            - $150.00</a></li>
+                                                    <li><a
+                                                            href="{{ route('shop', ['category' => request()->category,  'min_price' => 150, 'max_price' => 200]) }}">$150.00
+                                                            - $200.00</a></li>
+                                                    <li><a
+                                                            href="{{ route('shop', ['category' => request()->category,  'min_price' => 200, 'max_price' => 250]) }}">$200.00
+                                                            - $250.00</a></li>
+                                                    <li><a
+                                                            href="{{ route('shop', ['category' => request()->category,  'min_price' => 250]) }}">250.00+</a>
+                                                    </li>
+
                                                 </ul>
+
                                             </div>
                                         </div>
                                     </div>
@@ -205,63 +221,72 @@
                                         <option value="">$55 - $100</option>
                                     </select> --}}
                                     <p>Sort by Price:</p>
-                                    <a href="{{route('shop', ['category' => request()->category, 'sort' => 'low_high'])}}"><p>Low to High |</p></a>
-                                    <a href="{{route('shop', ['category' => request()->category, 'sort' => 'high_low'])}}"><p>High to Low</p></a>
+                                    <a
+                                        href="{{ route('shop', ['category' => request()->category, 'sort' => 'low_high']) }}">
+                                        <p>Low to High |</p>
+                                    </a>
+                                    <a
+                                        href="{{ route('shop', ['category' => request()->category, 'sort' => 'high_low']) }}">
+                                        <p>High to Low</p>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         @forelse ($products as $product)
-                        <div class="col-lg-4 col-md-7 col-sm-7">
-                            <div class="product__item sale">
-                                <div class="product__item__pic set-bg" data-setbg="/img/product/product-3.jpg">
-                                    <span class="label">Sale</span>
-                                    <ul class="product__hover">
-                                        <li><a href="{{route('product', $product->slug)}}"><img src="/img/icon/heart.png" alt=""></a></li>
-                                        <li><a href="#"><img src="/img/icon/compare.png" alt=""> <span>Compare</span></a>
-                                        </li>
-                                        <li><a href="#"><img src="/img/icon/search.png" alt=""></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product__item__text">
-                                    <h6>{{$product->name}}</h6>
-                                    <form action="{{route('cart.store')}}" method="POST">
-                                       @csrf
-                                       <input type="hidden" name="id" value="{{$product->id}}">
-                                       <input type="hidden" name="name" value="{{$product->name}}">
-                                       <input type="hidden" name="price" value="{{$product->price}}">
-                                       <button type="submit"> + Add To Cart</button>
-                                    <a href="#" class="add-cart">+ Add To Cart</a>
-                                    </form>
-                                    <div class="rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
+                            <div class="col-lg-4 col-md-7 col-sm-7">
+                                <div class="product__item sale">
+                                    <div class="product__item__pic set-bg" data-setbg="/img/product/product-3.jpg">
+                                        <span class="label">Sale</span>
+                                        <ul class="product__hover">
+                                            <li><a href="{{ route('product', $product->slug) }}"><img
+                                                        src="/img/icon/heart.png" alt=""></a></li>
+                                            <li><a href="#"><img src="/img/icon/compare.png" alt="">
+                                                    <span>Compare</span></a>
+                                            </li>
+                                            <li><a href="#"><img src="/img/icon/search.png" alt=""></a>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <h5>${{$product->price}}</h5>
-                                    <div class="product__color__select">
-                                        <label for="pc-7">
-                                            <input type="radio" id="pc-7">
-                                        </label>
-                                        <label class="active black" for="pc-8">
-                                            <input type="radio" id="pc-8">
-                                        </label>
-                                        <label class="grey" for="pc-9">
-                                            <input type="radio" id="pc-9">
-                                        </label>
+                                    <div class="product__item__text">
+                                        <h6>{{ $product->name }}</h6>
+                                        <form action="{{ route('cart.store') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $product->id }}">
+                                            <input type="hidden" name="name" value="{{ $product->name }}">
+                                            <input type="hidden" name="price" value="{{ $product->price }}">
+                                            <button type="submit"> + Add To Cart</button>
+                                            <a href="#" class="add-cart">+ Add To Cart</a>
+                                        </form>
+                                        <div class="rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <h5>${{ $product->price }}</h5>
+                                        <div class="product__color__select">
+                                            <label for="pc-7">
+                                                <input type="radio" id="pc-7">
+                                            </label>
+                                            <label class="active black" for="pc-8">
+                                                <input type="radio" id="pc-8">
+                                            </label>
+                                            <label class="grey" for="pc-9">
+                                                <input type="radio" id="pc-9">
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                            @empty
+                        @empty
                             <div style="text-align: left">No items found</div>
-                            @endforelse
+                        @endforelse
 
-                            {{$products->appends(request()->input())->links()}}
-                    {{-- <div class="row">
+                        {{ $products->appends(request()->input())->links() }}
+                        {{-- <div class="row">
                         <div class="col-lg-12">
                             <div class="product__pagination">
                                 <a class="active" href="#">1</a>
@@ -272,9 +297,9 @@
                             </div>
                         </div>
                     </div> --}}
+                    </div>
                 </div>
             </div>
-        </div>
     </section>
     <!-- Shop Section End -->
 </x-layout>
