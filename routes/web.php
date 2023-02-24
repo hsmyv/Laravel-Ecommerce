@@ -41,6 +41,10 @@ Route::controller(AuthController::class)->group(function(){
     Route::post('/register',  'register')->name('auth.register');
     Route::post('/login',  'login')->name('auth.login');
     Route::post('/logout',   'logout')->name('auth.logout')->middleware('auth');
+    Route::get('/account/{id}', 'show_account')->name('account.show');
+    Route::patch('/account/{id}/update', 'update_account')->name('account.update');
+    Route::patch('/account/{id}/reset/password', 'reset_password')->name('account.resetPassword');
+    Route::post('/account/{id}/updateImage', 'updateImage')->name('account.updateImage');
 
 });
 

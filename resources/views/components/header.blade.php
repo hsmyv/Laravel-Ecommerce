@@ -48,7 +48,9 @@
                             <div class="header__top__links">
                                 @auth
                                     <div class="header__top__hover">
-                                        <a href="">Welcome {{ auth()->user()->name }}</a>
+                                    <a href="{{route('account.show', auth()->id())}}">Welcome {{ auth()->user()->name }}</a>
+
+
                                         <ul>
                                             <li>
                                                 <form method="POST" action="{{ route('auth.logout') }}"
