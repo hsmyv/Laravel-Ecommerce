@@ -7,9 +7,29 @@ use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\App;
+use Illuminate\Cache\RateLimiter;
+
+use Illuminate\Support\Str;
+
 
 class AuthController extends Controller
 {
+    protected function throttleKey(Request $request)
+    {
+        return strtolower($request->input('email')) . '|' . $request->ip();
+    }
+
+    protected function maxAttempts()
+    {
+        return 3;
+    }
+
+    protected function decayMinutes()
+    {
+        return 1;
+    }
+
     public function index()
     {
         return view('Auth.index');
@@ -32,22 +52,41 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $attributes = $request->validate([
-            'email' => 'required|min:3|exists:users,email',
-            'password' => 'required|min:3'
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
         ]);
 
+        // Throttle the login attempts
+        $throttleKey = $this->throttleKey($request);
+        $maxAttempts = $this->maxAttempts();
+        $decayMinutes = $this->decayMinutes();
 
+        $rateLimiter = app(RateLimiter::class);
+        if ($rateLimiter->tooManyAttempts($throttleKey, $maxAttempts, $decayMinutes)) {
+            $seconds = $rateLimiter->availableIn($throttleKey);
+            $message = "Too many login attempts. Please try again in {$seconds} seconds.";
+            return back()->with('error', $message);
+        }
 
-        if (auth()->attempt($attributes)) {
+        if (auth()->attempt($credentials)) {
+            $rateLimiter->clear($throttleKey);
             session()->regenerate();
             return redirect('/')->with('success', 'You are now logged in!');
         }
 
+        $rateLimiter->hit($throttleKey);
+
+        $attemptsLeft = $maxAttempts - $rateLimiter->attempts($throttleKey) + 1;
+        $message = 'Invalid login credentials. You have ' . $attemptsLeft . ' attempts left.';
+
         throw ValidationException::withMessages([
-            'email' => 'Invalid Credentials'
+            'email' => $message
         ]);
     }
+
+
+
 
     public function logout(Request $request)
     {
@@ -101,7 +140,7 @@ class AuthController extends Controller
         if ($request->hasFile('image')) {
             $user->clearMediaCollection('images'); // clear previous image if exists
             $media = $user->addMediaFromRequest('image')
-            ->usingName($user->name)
+                ->usingName($user->name)
                 ->toMediaCollection('images');
             $imageUrl = $media->getUrl();
         } else {
@@ -110,5 +149,4 @@ class AuthController extends Controller
 
         return response()->json(['image_url' => $imageUrl]);
     }
-    
 }

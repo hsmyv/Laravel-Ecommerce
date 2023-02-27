@@ -26,9 +26,6 @@
                     <p class="text-red-500 text-xs mt-1"> {{ $message }} </p>
                 @enderror
                 <input name="email" type="email" placeholder="Email" />
-                @error('email')
-                    <p class="text-red-500 text-xs mt-1"> {{ $message }} </p>
-                @enderror
                 <input name="password" type="password" placeholder="Password" />
                 @error('password')
                     <p class="text-red-500 text-xs mt-1"> {{ $message }} </p>
@@ -46,14 +43,17 @@
                     <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                 </div>
                 <span>or use your account</span>
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
                 <input name="email" type="email" placeholder="Email" />
                 @error('email')
                     <p class="text-red-500 text-xs mt-1"> {{ $message }} </p>
                 @enderror
                 <input name="password" type="password" placeholder="Password" />
-                @error('password')
-                    <p class="text-red-500 text-xs mt-1"> {{ $message }} </p>
-                @enderror
                 <a href="#">Forgot your password?</a>
                 <button type="submit">Sign In</button>
             </form>
